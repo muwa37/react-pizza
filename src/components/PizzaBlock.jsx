@@ -3,8 +3,7 @@ import React, { useState } from 'react';
 export default function PizzaBlock({ title, price }) {
   const [pizzaCount, setPizzaCount] = useState(0);
   const clickHandler = () => {
-    const newVal = pizzaCount + 1;
-    setPizzaCount(newVal);
+    setPizzaCount(pizzaCount + 1);
   };
 
   return (
