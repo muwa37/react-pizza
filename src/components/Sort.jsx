@@ -1,9 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
+
+const sortTypes = ['popularity', 'price', 'alphabet'];
 
 export default function Sort() {
+  const [isVisible, setIsVisible] = useState(false);
+  const [sort, setSort] = useState(0);
+  const selectedSort = sortTypes[sort];
+
+  const sortHandler = ind => {
+    setSort(ind);
+    setIsVisible(false);
+  };
+
   return (
     <div className='sort'>
-      <div className='sort__label'>
+      <div onClick={() => setIsVisible(!isVisible)} className='sort__label'>
         <svg
           width='10'
           height='6'
@@ -16,16 +27,24 @@ export default function Sort() {
             fill='#2C2C2C'
           />
         </svg>
-        <b>Сортировка по:</b>
-        <span>популярности</span>
+        <p>Sort by:</p>
+        <span>{selectedSort}</span>
       </div>
-      <div className='sort__popup'>
-        <ul>
-          <li className='active'>популярности</li>
-          <li>цене</li>
-          <li>алфавиту</li>
-        </ul>
-      </div>
+      {isVisible && (
+        <div className='sort__popup'>
+          <ul>
+            {sortTypes.map((sortType, i) => (
+              <li
+                onClick={() => sortHandler(i)}
+                key={i}
+                className={i === sort ? 'active' : ''}
+              >
+                {sortType}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 }
