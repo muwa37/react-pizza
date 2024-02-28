@@ -5,7 +5,7 @@ import PizzaBlock from '../components/PizzaBlock';
 import PizzaSkeleton from '../components/PizzaBlock/PizzaSkeleton';
 import Sort from '../components/Sort';
 
-export default function Home() {
+export default function Home({ searchValue }) {
   const [items, setItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [activeCategory, setActiveCategory] = useState(0);
@@ -35,10 +35,16 @@ export default function Home() {
   const categoryChangeHandler = categoryIndex => {
     setActiveCategory(categoryIndex);
   };
-
   const sortChangeHandler = sortIndex => {
     setSortType(sortIndex);
   };
+
+  const pizzas = items
+    .filter(item =>
+      item.title.toLowerCase().includes(searchValue.toLowerCase())
+    )
+    .map(item => <PizzaBlock key={item.id} {...item} />);
+  const skeletons = [...new Array(6)].map((el, i) => <PizzaSkeleton key={i} />);
 
   return (
     <div className='container'>
@@ -50,11 +56,7 @@ export default function Home() {
         <Sort sortType={sortType} sortChangeHandler={sortChangeHandler} />
       </div>
       <h2 className='content__title'>All pizzas</h2>
-      <div className='content__items'>
-        {isLoading
-          ? [...new Array(6)].map((el, i) => <PizzaSkeleton key={i} />)
-          : items.map(item => <PizzaBlock key={item.id} {...item} />)}
-      </div>
+      <div className='content__items'>{isLoading ? skeletons : pizzas}</div>
     </div>
   );
 }
