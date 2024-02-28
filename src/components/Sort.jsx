@@ -1,14 +1,22 @@
 import React, { useState } from 'react';
 
-const sortTypes = ['popularity', 'price', 'alphabet'];
+//TODO: separate const
+//TODO: refactor inc/dec
 
-export default function Sort() {
+const sortTypes = [
+  { name: 'popularity(dec)', sortProp: 'rating' },
+  { name: 'popularity(inc)', sortProp: '-rating' },
+  { name: 'price(dec)', sortProp: 'price' },
+  { name: 'price(inc)', sortProp: '-price' },
+  { name: 'alphabet(dec)', sortProp: 'title' },
+  { name: 'alphabet(inc)', sortProp: '-title' },
+];
+
+export default function Sort({ sortType, sortChangeHandler }) {
   const [isVisible, setIsVisible] = useState(false);
-  const [sort, setSort] = useState(0);
-  const selectedSort = sortTypes[sort];
 
   const sortHandler = ind => {
-    setSort(ind);
+    sortChangeHandler(ind);
     setIsVisible(false);
   };
 
@@ -28,18 +36,18 @@ export default function Sort() {
           />
         </svg>
         <p>Sort by:</p>
-        <span>{selectedSort}</span>
+        <span>{sortType.name}</span>
       </div>
       {isVisible && (
         <div className='sort__popup'>
           <ul>
-            {sortTypes.map((sortType, i) => (
+            {sortTypes.map((el, i) => (
               <li
-                onClick={() => sortHandler(i)}
+                onClick={() => sortHandler(el)}
                 key={i}
-                className={i === sort ? 'active' : ''}
+                className={el.sortProp === sortType.sortProp ? 'active' : ''}
               >
-                {sortType}
+                {el.name}
               </li>
             ))}
           </ul>
