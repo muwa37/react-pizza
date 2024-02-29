@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
@@ -26,14 +27,15 @@ export default function Home() {
     const activeCategory = category === 0 ? '' : `category=${category}&`;
     const search = searchValue ? `&search=${searchValue}` : '';
 
-    fetch(
-      `https://65de02ccdccfcd562f561234.mockapi.io/items?${activeCategory}sortBy=${sortBy}&order=${order}${search}&page=${currentPage}&limit=4`
-    ).then(res =>
-      res.json().then(json => {
-        setItems(json);
+    axios
+      .get(
+        `https://65de02ccdccfcd562f561234.mockapi.io/items?${activeCategory}sortBy=${sortBy}&order=${order}${search}&page=${currentPage}&limit=4`
+      )
+      .then(res => {
+        setItems(res.data);
         setIsLoading(false);
-      })
-    );
+      });
+
     window.scrollTo(0, 0);
   }, [category, sort, searchValue, currentPage]);
 
