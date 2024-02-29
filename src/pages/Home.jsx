@@ -1,8 +1,6 @@
 import axios from 'axios';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-
-import { SearchContext } from '../App';
 
 import Categories from '../components/Categories';
 import Pagination from '../components/Pagination';
@@ -11,9 +9,7 @@ import PizzaSkeleton from '../components/PizzaBlock/PizzaSkeleton';
 import Sort from '../components/Sort';
 
 export default function Home() {
-  const { category, sort } = useSelector(store => store.filter);
-
-  const { searchValue } = useContext(SearchContext);
+  const { category, sort, searchValue } = useSelector(store => store.filter);
   const [items, setItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
