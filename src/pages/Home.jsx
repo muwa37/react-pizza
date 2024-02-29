@@ -9,11 +9,11 @@ import PizzaSkeleton from '../components/PizzaBlock/PizzaSkeleton';
 import Sort from '../components/Sort';
 
 export default function Home() {
-  const { category, sort, searchValue } = useSelector(store => store.filter);
+  const { category, sort, searchValue, currentPage } = useSelector(
+    store => store.filter
+  );
   const [items, setItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-
-  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     setIsLoading(true);
@@ -46,7 +46,7 @@ export default function Home() {
       </div>
       <h2 className='content__title'>All pizzas</h2>
       <div className='content__items'>{isLoading ? skeletons : pizzas}</div>
-      <Pagination onPageChange={num => setCurrentPage(num)} />
+      <Pagination />
     </div>
   );
 }

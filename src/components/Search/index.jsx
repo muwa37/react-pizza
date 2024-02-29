@@ -13,7 +13,7 @@ export default function Search() {
     dispatch(setSearchValue(value));
   };
 
-  const debouncedRequest = useDebounce(sendSearchRequest, 500);
+  const debouncedRequest = useDebounce(sendSearchRequest, 250);
 
   const onClearClick = () => {
     setInputValue('');
