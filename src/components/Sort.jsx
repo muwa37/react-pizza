@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { setSort } from '../store/slices/filterSlice';
 //TODO: separate const
 //TODO: refactor inc/dec
 
@@ -12,11 +13,14 @@ const sortTypes = [
   { name: 'alphabet(inc)', sortProp: '-title' },
 ];
 
-export default function Sort({ sortType, sortChangeHandler }) {
+export default function Sort() {
+  const dispatch = useDispatch();
+  const sortType = useSelector(store => store.filter.sort);
+
   const [isVisible, setIsVisible] = useState(false);
 
-  const sortHandler = ind => {
-    sortChangeHandler(ind);
+  const sortChangeHandler = ind => {
+    dispatch(setSort(ind));
     setIsVisible(false);
   };
 
@@ -43,7 +47,7 @@ export default function Sort({ sortType, sortChangeHandler }) {
           <ul>
             {sortTypes.map((el, i) => (
               <li
-                onClick={() => sortHandler(el)}
+                onClick={() => sortChangeHandler(el)}
                 key={i}
                 className={el.sortProp === sortType.sortProp ? 'active' : ''}
               >

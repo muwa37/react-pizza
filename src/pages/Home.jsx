@@ -1,7 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-
-import { setCategory } from '../store/slices/filterSlice';
+import { useSelector } from 'react-redux';
 
 import { SearchContext } from '../App';
 
@@ -12,28 +10,24 @@ import PizzaSkeleton from '../components/PizzaBlock/PizzaSkeleton';
 import Sort from '../components/Sort';
 
 export default function Home() {
-  const activeCategory = useSelector(store => store.filter.category);
-  const dispatch = useDispatch();
+  const { category, sort } = useSelector(store => store.filter);
 
   const { searchValue } = useContext(SearchContext);
   const [items, setItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [sortType, setSortType] = useState({
-    name: 'popularity',
-    sortProp: 'rating',
-  });
+
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     setIsLoading(true);
 
-    const sortBy = sortType.sortProp;
-    const order = sortType.sortProp.includes('-') ? 'asc' : 'desc';
-    const category = activeCategory === 0 ? '' : `category=${activeCategory}&`;
+    const sortBy = sort.sortProp;
+    const order = sort.sortProp.includes('-') ? 'asc' : 'desc';
+    const activeCategory = category === 0 ? '' : `category=${category}&`;
     const search = searchValue ? `&search=${searchValue}` : '';
 
     fetch(
-      `https://65de02ccdccfcd562f561234.mockapi.io/items?${category}sortBy=${sortBy}&order=${order}${search}&page=${currentPage}&limit=4`
+      `https://65de02ccdccfcd562f561234.mockapi.io/items?${activeCategory}sortBy=${sortBy}&order=${order}${search}&page=${currentPage}&limit=4`
     ).then(res =>
       res.json().then(json => {
         setItems(json);
@@ -41,14 +35,7 @@ export default function Home() {
       })
     );
     window.scrollTo(0, 0);
-  }, [activeCategory, sortType, searchValue, currentPage]);
-
-  const categoryChangeHandler = categoryIndex => {
-    dispatch(setCategory(categoryIndex));
-  };
-  const sortChangeHandler = sortIndex => {
-    setSortType(sortIndex);
-  };
+  }, [category, sort, searchValue, currentPage]);
 
   const pizzas = items.map(item => <PizzaBlock key={item.id} {...item} />);
   const skeletons = [...new Array(6)].map((el, i) => <PizzaSkeleton key={i} />);
@@ -56,11 +43,8 @@ export default function Home() {
   return (
     <div className='container'>
       <div className='content__top'>
-        <Categories
-          activeCategory={activeCategory}
-          categoryChangeHandler={categoryChangeHandler}
-        />
-        <Sort sortType={sortType} sortChangeHandler={sortChangeHandler} />
+        <Categories />
+        <Sort />
       </div>
       <h2 className='content__title'>All pizzas</h2>
       <div className='content__items'>{isLoading ? skeletons : pizzas}</div>
