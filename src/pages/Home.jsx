@@ -1,4 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { setCategory } from '../store/slices/filterSlice';
+
 import { SearchContext } from '../App';
 
 import Categories from '../components/Categories';
@@ -8,10 +12,12 @@ import PizzaSkeleton from '../components/PizzaBlock/PizzaSkeleton';
 import Sort from '../components/Sort';
 
 export default function Home() {
+  const activeCategory = useSelector(store => store.filter.category);
+  const dispatch = useDispatch();
+
   const { searchValue } = useContext(SearchContext);
   const [items, setItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [activeCategory, setActiveCategory] = useState(0);
   const [sortType, setSortType] = useState({
     name: 'popularity',
     sortProp: 'rating',
@@ -38,7 +44,7 @@ export default function Home() {
   }, [activeCategory, sortType, searchValue, currentPage]);
 
   const categoryChangeHandler = categoryIndex => {
-    setActiveCategory(categoryIndex);
+    dispatch(setCategory(categoryIndex));
   };
   const sortChangeHandler = sortIndex => {
     setSortType(sortIndex);
