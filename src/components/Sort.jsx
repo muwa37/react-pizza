@@ -4,7 +4,7 @@ import { setSort } from '../store/slices/filterSlice';
 //TODO: separate const
 //TODO: refactor inc/dec
 
-const sortTypes = [
+export const sortTypes = [
   { name: 'popularity(dec)', sortProp: 'rating' },
   { name: 'popularity(inc)', sortProp: '-rating' },
   { name: 'price(dec)', sortProp: 'price' },
