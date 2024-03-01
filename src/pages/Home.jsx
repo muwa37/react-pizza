@@ -16,7 +16,7 @@ export default function Home() {
   const navigate = useNavigate();
 
   const { category, sort, searchValue, currentPage } = useSelector(
-    store => store.filter
+    state => state.filter
   );
 
   const [items, setItems] = useState([]);
