@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setSort } from '../store/slices/filterSlice';
 //TODO: separate const
 //TODO: refactor inc/dec
+//TODO: separate svg
 
 export const sortTypes = [
   { name: 'popularity(dec)', sortProp: 'rating' },
@@ -16,6 +17,7 @@ export const sortTypes = [
 export default function Sort() {
   const dispatch = useDispatch();
   const sortType = useSelector(store => store.filter.sort);
+  const sortRef = useRef();
 
   const [isVisible, setIsVisible] = useState(false);
 
@@ -23,9 +25,21 @@ export default function Sort() {
     dispatch(setSort(ind));
     setIsVisible(false);
   };
+  const outsideClickHandler = e => {
+    if (!e.composedPath().includes(sortRef.current)) setIsVisible(false);
+    console.log('clicked');
+  };
+
+  useEffect(() => {
+    document.body.addEventListener('click', outsideClickHandler);
+
+    return () => {
+      document.body.removeEventListener('click', outsideClickHandler);
+    };
+  }, []);
 
   return (
-    <div className='sort'>
+    <div ref={sortRef} className='sort'>
       <div onClick={() => setIsVisible(!isVisible)} className='sort__label'>
         <svg
           width='10'
