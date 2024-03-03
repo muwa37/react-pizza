@@ -27,7 +27,6 @@ export default function Sort() {
   };
   const outsideClickHandler = e => {
     if (!e.composedPath().includes(sortRef.current)) setIsVisible(false);
-    console.log('clicked');
   };
 
   useEffect(() => {
