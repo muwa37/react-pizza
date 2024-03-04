@@ -24,7 +24,7 @@ export default function Home() {
   const isSearch = useRef(false);
   const isMounted = useRef(false);
 
-  const fetchPizzas = () => {
+  const fetchPizzas = async () => {
     setIsLoading(true);
 
     const sortBy = sort.sortProp;
@@ -32,14 +32,17 @@ export default function Home() {
     const activeCategory = category === 0 ? '' : `category=${category}&`;
     const search = searchValue ? `&search=${searchValue}` : '';
 
-    axios
-      .get(
+    try {
+      const res = await axios.get(
         `https://65de02ccdccfcd562f561234.mockapi.io/items?${activeCategory}sortBy=${sortBy}&order=${order}${search}&page=${currentPage}&limit=4`
-      )
-      .then(res => {
-        setItems(res.data);
-        setIsLoading(false);
-      });
+      );
+
+      setItems(res.data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   useEffect(() => {
