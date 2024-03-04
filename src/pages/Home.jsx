@@ -1,6 +1,5 @@
-import axios from 'axios';
 import qs from 'qs';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
@@ -10,6 +9,7 @@ import PizzaBlock from '../components/PizzaBlock';
 import PizzaSkeleton from '../components/PizzaBlock/PizzaSkeleton';
 import Sort, { sortTypes } from '../components/Sort';
 import { setFilters } from '../store/slices/filterSlice';
+import { fetchPizzas } from '../store/slices/pizzaSlice';
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -18,31 +18,20 @@ export default function Home() {
   const { category, sort, searchValue, currentPage } = useSelector(
     state => state.filter
   );
+  const { items, loadingStatus } = useSelector(state => state.pizza);
 
-  const [items, setItems] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
   const isSearch = useRef(false);
   const isMounted = useRef(false);
 
-  const fetchPizzas = async () => {
-    setIsLoading(true);
-
+  const getPizzas = async () => {
     const sortBy = sort.sortProp;
     const order = sort.sortProp.includes('-') ? 'asc' : 'desc';
     const activeCategory = category === 0 ? '' : `category=${category}&`;
     const search = searchValue ? `&search=${searchValue}` : '';
 
-    try {
-      const res = await axios.get(
-        `https://65de02ccdccfcd562f561234.mockapi.io/items?${activeCategory}sortBy=${sortBy}&order=${order}${search}&page=${currentPage}&limit=4`
-      );
-
-      setItems(res.data);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsLoading(false);
-    }
+    dispatch(
+      fetchPizzas({ sortBy, order, activeCategory, search, currentPage })
+    );
   };
 
   useEffect(() => {
@@ -76,7 +65,7 @@ export default function Home() {
     window.scrollTo(0, 0);
 
     if (!isSearch.current) {
-      fetchPizzas();
+      getPizzas();
     }
 
     isSearch.current = false;
@@ -91,8 +80,18 @@ export default function Home() {
         <Categories />
         <Sort />
       </div>
-      <h2 className='content__title'>All pizzas</h2>
-      <div className='content__items'>{isLoading ? skeletons : pizzas}</div>
+      <h2 className='content__title'>Pizzas</h2>
+      {loadingStatus === 'error' ? (
+        <div className='content__error-info'>
+          <h2>Loading error</h2>
+          <p>Sorry, something went wrong while loading pizza</p>
+        </div>
+      ) : (
+        <div className='content__items'>
+          {loadingStatus === 'loading' ? skeletons : pizzas}
+        </div>
+      )}
+
       <Pagination />
     </div>
   );
