@@ -11,6 +11,8 @@ import Sort, { sortTypes } from '../components/Sort';
 import { setFilters } from '../store/slices/filterSlice';
 import { fetchPizzas } from '../store/slices/pizzaSlice';
 
+//TODO: separate error into comp
+
 export default function Home() {
   const dispatch = useDispatch();
   const navigate = useNavigate();

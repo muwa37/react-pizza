@@ -1,9 +1,8 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { setCategory } from '../store/slices/filterSlice'; //TODO: separate const
-
-const categories = ['All', 'Meat', 'Vegetarian', 'Grill', 'Spicy', 'Closed'];
+import { setCategory } from '../store/slices/filterSlice';
+import { categories } from '../utils/consts';
 
 export default function Categories() {
   const dispatch = useDispatch();
