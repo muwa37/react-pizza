@@ -3,13 +3,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import CartItem from '../components/CartItem';
 import EmptyCart from '../components/EmptyCart';
-import { clearItems } from '../store/slices/cartSlice';
+import { clearItems, selectCart } from '../store/slices/cartSlice';
 
 //TODO: separate svg
 
 export default function Cart() {
   const dispatch = useDispatch();
-  const { totalPrice, items } = useSelector(state => state.cart);
+  const { totalPrice, items } = useSelector(selectCart);
 
   const totalCount = items.reduce((sum, item) => sum + item.count, 0);
 

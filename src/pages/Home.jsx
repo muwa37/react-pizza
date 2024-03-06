@@ -8,8 +8,8 @@ import Pagination from '../components/Pagination';
 import PizzaBlock from '../components/PizzaBlock';
 import PizzaSkeleton from '../components/PizzaBlock/PizzaSkeleton';
 import Sort, { sortTypes } from '../components/Sort';
-import { setFilters } from '../store/slices/filterSlice';
-import { fetchPizzas } from '../store/slices/pizzaSlice';
+import { selectFilter, setFilters } from '../store/slices/filterSlice';
+import { fetchPizzas, selectPizzaData } from '../store/slices/pizzaSlice';
 
 //TODO: separate error into comp
 
@@ -17,10 +17,9 @@ export default function Home() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { category, sort, searchValue, currentPage } = useSelector(
-    state => state.filter
-  );
-  const { items, loadingStatus } = useSelector(state => state.pizza);
+  const { category, sort, searchValue, currentPage } =
+    useSelector(selectFilter);
+  const { items, loadingStatus } = useSelector(selectPizzaData);
 
   const isSearch = useRef(false);
   const isMounted = useRef(false);

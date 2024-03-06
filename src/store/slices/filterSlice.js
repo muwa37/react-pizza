@@ -35,6 +35,9 @@ const filterSlice = createSlice({
   },
 });
 
+export const selectSort = store => store.filter.sort;
+export const selectFilter = store => store.filter;
+
 export default filterSlice.reducer;
 export const {
   setCategory,

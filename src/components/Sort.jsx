@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setSort } from '../store/slices/filterSlice';
+import { selectSort, setSort } from '../store/slices/filterSlice';
 //TODO: separate const
 //TODO: refactor inc/dec
 //TODO: separate svg
@@ -16,7 +16,7 @@ export const sortTypes = [
 
 export default function Sort() {
   const dispatch = useDispatch();
-  const sortType = useSelector(store => store.filter.sort);
+  const sortType = useSelector(selectSort);
   const sortRef = useRef();
 
   const [isVisible, setIsVisible] = useState(false);
