@@ -6,3 +6,5 @@ export const categories = [
   'Spicy',
   'Closed',
 ];
+
+export const typeNames = ['traditional', 'thin'];
