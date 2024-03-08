@@ -1,15 +1,9 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { Pizza } from '../types/common';
 
-//TODO: separate type
 //TODO: add loading skeleton instead of h2
-
-type Pizza = {
-  imageUrl: string;
-  title: string;
-  price: number;
-};
 
 export default function Pizza() {
   const [pizza, setPizza] = useState<Pizza>();
