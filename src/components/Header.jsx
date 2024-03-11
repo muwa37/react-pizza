@@ -1,4 +1,3 @@
-import React from 'react';
 import { useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 
@@ -7,6 +6,7 @@ import { selectCart } from '../store/slices/cartSlice';
 import Search from './Search';
 
 //TODO: separate totalCount into redux
+//TODO: separate svg
 
 export default function Header() {
   const { items, totalPrice } = useSelector(selectCart);
