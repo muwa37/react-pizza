@@ -5,7 +5,7 @@ import { categories } from '../utils/consts';
 
 export default function Categories() {
   const dispatch = useDispatch();
-  const activeCategory = useSelector(store => store.filter.category);
+  const activeCategory = useSelector((store: any) => store.filter.category);
 
   const categoryChangeHandler = (categoryIndex: number) => {
     dispatch(setCategory(categoryIndex));

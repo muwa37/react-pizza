@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import useDebounce from '../../hooks/useDebounce';
 import { setSearchValue } from '../../store/slices/filterSlice';
@@ -7,9 +7,9 @@ import styles from './Search.module.scss';
 export default function Search() {
   const [inputValue, setInputValue] = useState('');
   const dispatch = useDispatch();
-  const inputRef = useRef();
+  const inputRef = useRef<HTMLInputElement>(null);
 
-  const sendSearchRequest = value => {
+  const sendSearchRequest = (value: string) => {
     dispatch(setSearchValue(value));
   };
 
@@ -17,11 +17,13 @@ export default function Search() {
 
   const onClearClick = () => {
     setInputValue('');
-    inputRef.current.focus();
-    debouncedRequest('');
+    if (inputRef.current) {
+      inputRef.current.focus();
+      debouncedRequest('');
+    }
   };
 
-  const onSearchChange = e => {
+  const onSearchChange = (e: any) => {
     setInputValue(e.target.value);
     debouncedRequest(e.target.value);
   };

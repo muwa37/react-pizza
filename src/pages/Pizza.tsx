@@ -1,12 +1,12 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Pizza } from '../types/common';
+import { PizzaState } from '../types/common';
 
 //TODO: add loading skeleton instead of h2
 
 export default function Pizza() {
-  const [pizza, setPizza] = useState<Pizza>();
+  const [pizza, setPizza] = useState<PizzaState>();
   const { id } = useParams();
   const navigate = useNavigate();
 

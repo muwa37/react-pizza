@@ -1,5 +1,5 @@
 import qs from 'qs';
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
@@ -31,6 +31,7 @@ export default function Home() {
     const search = searchValue ? `&search=${searchValue}` : '';
 
     dispatch(
+      // @ts-ignore
       fetchPizzas({ sortBy, order, activeCategory, search, currentPage })
     );
   };
@@ -72,7 +73,9 @@ export default function Home() {
     isSearch.current = false;
   }, [category, sort, searchValue, currentPage]);
 
-  const pizzas = items.map(item => <PizzaBlock key={item.id} {...item} />);
+  const pizzas = items.map((item: any) => (
+    <PizzaBlock key={item.id} {...item} />
+  ));
   const skeletons = [...new Array(6)].map((el, i) => <PizzaSkeleton key={i} />);
 
   return (
