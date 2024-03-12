@@ -1,4 +1,3 @@
-import React from 'react';
 import { useDispatch } from 'react-redux';
 import {
   decrementItemCount,
@@ -9,6 +8,16 @@ import {
 //TODO: separate svg
 //TODO: separate totalCount into redux
 
+type CartItemProps = {
+  id: string;
+  title: string;
+  type: string;
+  size: number;
+  price: number;
+  count: number;
+  imageUrl: string;
+};
+
 export default function CartItem({
   id,
   title,
@@ -17,7 +26,7 @@ export default function CartItem({
   price,
   count,
   imageUrl,
-}) {
+}: CartItemProps) {
   const dispatch = useDispatch();
 
   const onPlusClick = () => {

@@ -1,11 +1,17 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectSort, setSort } from '../store/slices/filterSlice';
 //TODO: separate const
 //TODO: refactor inc/dec
 //TODO: separate svg
+//TODO: separate type
 
-export const sortTypes = [
+type SortItem = {
+  name: string;
+  sortProp: string;
+};
+
+export const sortTypes: SortItem[] = [
   { name: 'popularity(dec)', sortProp: 'rating' },
   { name: 'popularity(inc)', sortProp: '-rating' },
   { name: 'price(dec)', sortProp: 'price' },
@@ -17,15 +23,15 @@ export const sortTypes = [
 export default function Sort() {
   const dispatch = useDispatch();
   const sortType = useSelector(selectSort);
-  const sortRef = useRef();
+  const sortRef = useRef<HTMLDivElement>(null);
 
   const [isVisible, setIsVisible] = useState(false);
 
-  const sortChangeHandler = ind => {
-    dispatch(setSort(ind));
+  const sortChangeHandler = (sortType: SortItem) => {
+    dispatch(setSort(sortType));
     setIsVisible(false);
   };
-  const outsideClickHandler = e => {
+  const outsideClickHandler = (e: any) => {
     if (!e.composedPath().includes(sortRef.current)) setIsVisible(false);
   };
 
