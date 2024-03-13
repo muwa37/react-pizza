@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { ChangeEvent, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import useDebounce from '../../hooks/useDebounce';
 import { setSearchValue } from '../../store/slices/filterSlice';
@@ -23,7 +23,7 @@ export default function Search() {
     }
   };
 
-  const onSearchChange = (e: any) => {
+  const onSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
     debouncedRequest(e.target.value);
   };

@@ -31,8 +31,12 @@ export default function Sort() {
     dispatch(setSort(sortType));
     setIsVisible(false);
   };
-  const outsideClickHandler = (e: any) => {
-    if (!e.composedPath().includes(sortRef.current)) setIsVisible(false);
+  const outsideClickHandler = (e: MouseEvent) => {
+    const current = sortRef.current;
+    const path = e.composedPath();
+    if (current && !path.includes(current)) {
+      setIsVisible(false);
+    }
   };
 
   useEffect(() => {

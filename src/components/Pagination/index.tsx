@@ -9,8 +9,8 @@ import styles from './Pagination.module.scss';
 export default function Pagination() {
   const dispatch = useDispatch();
 
-  const onPageChange = (e: any) => {
-    dispatch(setCurrentPage(e.selected + 1));
+  const onPageChange = (selectedItem: { selected: number }) => {
+    dispatch(setCurrentPage(selectedItem.selected + 1));
   };
 
   return (
