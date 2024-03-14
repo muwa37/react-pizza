@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { memo, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   selectSort,
@@ -24,7 +24,7 @@ export const sortTypes: SortItem[] = [
   { name: 'alphabet(inc)', sortProp: SortProperties.TITLE_ASC },
 ];
 
-export default function Sort() {
+export default memo(function Sort() {
   const dispatch = useDispatch();
   const sortType = useSelector(selectSort);
   const sortRef = useRef<HTMLDivElement>(null);
@@ -86,4 +86,4 @@ export default function Sort() {
       )}
     </div>
   );
-}
+});

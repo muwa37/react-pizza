@@ -52,6 +52,7 @@ export default function CartItem({
       </div>
       <div className='cart__item-count'>
         <button
+          disabled={count === 1}
           onClick={onMinusClick}
           className='button button--outline button--circle cart__item-count-minus'
         >

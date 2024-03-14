@@ -1,9 +1,10 @@
+import { memo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { setCategory } from '../store/slices/filterSlice';
 import { categories } from '../utils/consts';
 
-export default function Categories() {
+export default memo(function Categories() {
   const dispatch = useDispatch();
   const activeCategory = useSelector((store: any) => store.filter.category);
 
@@ -26,4 +27,4 @@ export default function Categories() {
       </ul>
     </div>
   );
-}
+});
