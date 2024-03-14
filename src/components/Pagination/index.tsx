@@ -4,7 +4,7 @@ import { setCurrentPage } from '../../store/slices/filterSlice';
 
 import styles from './Pagination.module.scss';
 
-//TODO: Rewrite with custom pagination
+//TODO: rewrite with custom pagination
 
 export default function Pagination() {
   const dispatch = useDispatch();

@@ -1,6 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectSort, setSort } from '../store/slices/filterSlice';
+import {
+  selectSort,
+  setSort,
+  SortProperties,
+} from '../store/slices/filterSlice';
 //TODO: separate const
 //TODO: refactor inc/dec
 //TODO: separate svg
@@ -8,16 +12,16 @@ import { selectSort, setSort } from '../store/slices/filterSlice';
 
 type SortItem = {
   name: string;
-  sortProp: string;
+  sortProp: SortProperties;
 };
 
 export const sortTypes: SortItem[] = [
-  { name: 'popularity(dec)', sortProp: 'rating' },
-  { name: 'popularity(inc)', sortProp: '-rating' },
-  { name: 'price(dec)', sortProp: 'price' },
-  { name: 'price(inc)', sortProp: '-price' },
-  { name: 'alphabet(dec)', sortProp: 'title' },
-  { name: 'alphabet(inc)', sortProp: '-title' },
+  { name: 'popularity(dec)', sortProp: SortProperties.RATING_DESC },
+  { name: 'popularity(inc)', sortProp: SortProperties.RATING_ASC },
+  { name: 'price(dec)', sortProp: SortProperties.PRICE_DESC },
+  { name: 'price(inc)', sortProp: SortProperties.PRICE_ASC },
+  { name: 'alphabet(dec)', sortProp: SortProperties.TITLE_DESC },
+  { name: 'alphabet(inc)', sortProp: SortProperties.TITLE_ASC },
 ];
 
 export default function Sort() {

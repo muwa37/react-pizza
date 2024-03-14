@@ -1,6 +1,6 @@
 import qs from 'qs';
 import { useEffect, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import Categories from '../components/Categories';
@@ -8,13 +8,14 @@ import Pagination from '../components/Pagination';
 import PizzaBlock from '../components/PizzaBlock';
 import PizzaSkeleton from '../components/PizzaBlock/PizzaSkeleton';
 import Sort, { sortTypes } from '../components/Sort';
+import { useAppDispatch } from '../store';
 import { selectFilter, setFilters } from '../store/slices/filterSlice';
 import { fetchPizzas, selectPizzaData } from '../store/slices/pizzaSlice';
 
 //TODO: separate error into comp
 
 export default function Home() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const { category, sort, searchValue, currentPage } =
@@ -25,13 +26,12 @@ export default function Home() {
   const isMounted = useRef(false);
 
   const getPizzas = async () => {
-    const sortBy = sort.sortProp;
+    const sortBy = sort.sortProp.replace('-', '');
     const order = sort.sortProp.includes('-') ? 'asc' : 'desc';
     const activeCategory = category === 0 ? '' : `category=${category}&`;
     const search = searchValue ? `&search=${searchValue}` : '';
 
     dispatch(
-      // @ts-ignore
       fetchPizzas({ sortBy, order, activeCategory, search, currentPage })
     );
   };
@@ -55,10 +55,21 @@ export default function Home() {
       const params = qs.parse(window.location.search.substring(1));
 
       const sort = sortTypes.find(
-        sortType => sortType.sortProp === params.sortProp
+        sortType => sortType.sortProp === params.sortBy
       );
 
-      dispatch(setFilters({ ...params, sort }));
+      if (Number.isNaN(Number(params.category))) {
+        params.category = '0';
+      }
+
+      dispatch(
+        setFilters({
+          searchValue: params.searchValue as string,
+          category: Number(params.category),
+          currentPage: Number(params.currentPage),
+          sort: sort || sortTypes[0],
+        })
+      );
       isSearch.current = true;
     }
   }, []);
