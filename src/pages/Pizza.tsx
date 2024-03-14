@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { PizzaState } from '../types/common';
+import { PizzaState } from '../types/components/Pizza';
 
 //TODO: add loading skeleton instead of h2
 

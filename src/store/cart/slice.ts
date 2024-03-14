@@ -5,6 +5,7 @@ import { getCartFromLS } from '../../utils/getCartFromLS';
 
 const initialState: CartSliceState = {
   totalPrice: getCartFromLS().totalPrice,
+  totalCount: getCartFromLS().totalCount,
   items: getCartFromLS().items,
 };
 

@@ -1,9 +1,3 @@
-export type PizzaState = {
-  imageUrl: string;
-  title: string;
-  price: number;
-};
-
 export type CartItem = {
   id: string;
   title: string;
@@ -36,3 +30,8 @@ export enum Status {
   SUCCESS = 'success',
   ERROR = 'error',
 }
+
+export type SortItem = {
+  name: string;
+  sortProp: SortProperties;
+};

@@ -8,12 +8,13 @@ import LoadingError from '../components/LoadingError';
 import Pagination from '../components/Pagination';
 import PizzaBlock from '../components/PizzaBlock';
 import PizzaSkeleton from '../components/PizzaBlock/PizzaSkeleton';
-import Sort, { sortTypes } from '../components/Sort';
+import Sort from '../components/Sort';
 import { useAppDispatch } from '../store';
 import { selectFilter } from '../store/filter/selectors';
 import { setFilters } from '../store/filter/slice';
 import { selectPizzaData } from '../store/pizza/selectors';
 import { fetchPizzas } from '../store/pizza/slice';
+import { sortTypes } from '../utils/consts';
 
 export default function Home() {
   const dispatch = useAppDispatch();
