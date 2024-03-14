@@ -1,10 +1,8 @@
 import { memo, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  selectSort,
-  setSort,
-  SortProperties,
-} from '../store/slices/filterSlice';
+import { selectSort } from '../store/filter/selectors';
+import { setSort } from '../store/filter/slice';
+import { SortProperties } from '../types/common';
 //TODO: separate const
 //TODO: refactor inc/dec
 //TODO: separate svg

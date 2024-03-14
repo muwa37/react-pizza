@@ -1,7 +1,7 @@
 import { memo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { setCategory } from '../store/filter/slice';
 
-import { setCategory } from '../store/slices/filterSlice';
 import { categories } from '../utils/consts';
 
 export default memo(function Categories() {

@@ -10,4 +10,4 @@
 - CSS-Modules / SCSS
 - React Content Loader
 - React Pagination
-- Code Splitting, React Loadable, useWhyDidYouUpdate
+- Code Splitting, React Loadable

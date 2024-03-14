@@ -4,15 +4,16 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import Categories from '../components/Categories';
+import LoadingError from '../components/LoadingError';
 import Pagination from '../components/Pagination';
 import PizzaBlock from '../components/PizzaBlock';
 import PizzaSkeleton from '../components/PizzaBlock/PizzaSkeleton';
 import Sort, { sortTypes } from '../components/Sort';
 import { useAppDispatch } from '../store';
-import { selectFilter, setFilters } from '../store/slices/filterSlice';
-import { fetchPizzas, selectPizzaData } from '../store/slices/pizzaSlice';
-
-//TODO: separate error into comp
+import { selectFilter } from '../store/filter/selectors';
+import { setFilters } from '../store/filter/slice';
+import { selectPizzaData } from '../store/pizza/selectors';
+import { fetchPizzas } from '../store/pizza/slice';
 
 export default function Home() {
   const dispatch = useAppDispatch();
@@ -24,17 +25,6 @@ export default function Home() {
 
   const isSearch = useRef(false);
   const isMounted = useRef(false);
-
-  const getPizzas = async () => {
-    const sortBy = sort.sortProp.replace('-', '');
-    const order = sort.sortProp.includes('-') ? 'asc' : 'desc';
-    const activeCategory = category === 0 ? '' : `category=${category}&`;
-    const search = searchValue ? `&search=${searchValue}` : '';
-
-    dispatch(
-      fetchPizzas({ sortBy, order, activeCategory, search, currentPage })
-    );
-  };
 
   useEffect(() => {
     if (isMounted.current) {
@@ -48,7 +38,7 @@ export default function Home() {
       navigate(`?${queryString}`);
     }
     isMounted.current = true;
-  }, [category, sort, searchValue, currentPage]);
+  }, [category, sort, searchValue, currentPage, navigate]);
 
   useEffect(() => {
     if (window.location.search) {
@@ -72,17 +62,28 @@ export default function Home() {
       );
       isSearch.current = true;
     }
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
+
+    const getPizzas = async () => {
+      const sortBy = sort.sortProp.replace('-', '');
+      const order = sort.sortProp.includes('-') ? 'asc' : 'desc';
+      const activeCategory = category === 0 ? '' : `category=${category}&`;
+      const search = searchValue ? `&search=${searchValue}` : '';
+
+      dispatch(
+        fetchPizzas({ sortBy, order, activeCategory, search, currentPage })
+      );
+    };
 
     if (!isSearch.current) {
       getPizzas();
     }
 
     isSearch.current = false;
-  }, [category, sort, searchValue, currentPage]);
+  }, [category, sort, searchValue, currentPage, dispatch]);
 
   const pizzas = items.map((item: any) => (
     <PizzaBlock key={item.id} {...item} />
@@ -97,16 +98,12 @@ export default function Home() {
       </div>
       <h2 className='content__title'>Pizzas</h2>
       {loadingStatus === 'error' ? (
-        <div className='content__error-info'>
-          <h2>Loading error</h2>
-          <p>Sorry, something went wrong while loading pizza</p>
-        </div>
+        <LoadingError />
       ) : (
         <div className='content__items'>
           {loadingStatus === 'loading' ? skeletons : pizzas}
         </div>
       )}
-
       <Pagination />
     </div>
   );
