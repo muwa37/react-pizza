@@ -3,7 +3,7 @@ import {
   decrementItemCount,
   incrementItemCount,
   removeItem,
-} from '../store/slices/cartSlice';
+} from '../store/cart/slice';
 
 //TODO: separate svg
 //TODO: separate totalCount into redux

@@ -2,7 +2,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import CartItem from '../components/CartItem';
 import EmptyCart from '../components/EmptyCart';
-import { clearItems, selectCart } from '../store/slices/cartSlice';
+import { selectCart } from '../store/cart/selectors';
+import { clearItems } from '../store/cart/slice';
 
 //TODO: separate svg
 

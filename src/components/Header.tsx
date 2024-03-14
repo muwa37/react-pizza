@@ -1,8 +1,9 @@
+import { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 
 import pizzaLogo from '../assets/img/pizza-logo.svg';
-import { selectCart } from '../store/slices/cartSlice';
+import { selectCart } from '../store/cart/selectors';
 import Search from './Search';
 
 //TODO: separate totalCount into redux
@@ -11,11 +12,19 @@ import Search from './Search';
 export default function Header() {
   const { items, totalPrice } = useSelector(selectCart);
   const { pathname } = useLocation();
+  const isMounted = useRef(false);
 
   const totalCount = items.reduce(
     (sum: number, item: any) => sum + item.count,
     0
   );
+
+  useEffect(() => {
+    if (isMounted.current) {
+      localStorage.setItem('cart', JSON.stringify(items));
+    }
+    isMounted.current = true;
+  }, [items, totalPrice]);
 
   return (
     <div>
